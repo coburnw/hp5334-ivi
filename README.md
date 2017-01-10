@@ -14,22 +14,22 @@ A functional but very rough first draft
   Three installation methods
   
 #### I know what I'm doing
-  * Copy the new driver files into the PythonIVI tree
-  * Adjust __init__.py files accordingly
+  * Copy the new driver files into the Python-IVI tree
+  * Adjust '__init__.py' files accordingly
   * rebuild and reinstall python-ivi
-  * make the digits flash
+  * make the digits roll
   
 #### Overview
   Inside the python-ivi source tree I made a contrib folder to store
-  additional drivers. This was to minimize the amount of tromping around in
-  someone else's tree.  The __init__ files need to be adjusted up the tree to
-  account for the changes in structure including config.py at the root
-  only once, while the __init__ file in contrib needs to accurately reflect
+  additional drivers. This was to minimize the amount of tromping around i would
+  have to do in someone else's tree.  The `__init__.py` files need to be adjusted up
+  the tree to account for the changes in structure including `config.py` at the root
+  only once, while the `__init__.py` file in contrib needs to accurately reflect
   any changes to the contents of the contrib folder.
 
   An easier way to handle this might be to copy the new drivers directly into
-  python-ivi/ivi/agilent folder and adjusting its __init__ file accordingly.
-  This might be a safer bet if you git pull python-ivi often.
+  python-ivi/ivi/agilent folder and adjusting its `__init__.py` file accordingly.
+  This might be a safer bet if you git pull python-ivi now and then.
 
   Regardless of the installation method chosen, the python-ivi package must
   be rebuilt and reinstalled each time a file inside its tree is modified.
@@ -38,14 +38,13 @@ A functional but very rough first draft
 
 #### Steps (in my case, and as best as i recall)
   * git clone https://github.com/coburnw/hp5334-ivi.git to a devel directory
-    of your choice.  For me it was the parent containing the python-ivi clone.
+    of your choice.  For me it was the parent folder containing the python-ivi clone.
   * if it doesnt already exist, mkdir python-ivi/ivi/contrib
-  * cp hp5334-ivi.git/contrib/agilent*.py to ivi/contrib folder
-  * edit ivi/contrib/__init__.py file to add the three 5334 drivers 
-  * edit python-ivi/ivi/__init__.py and add 'contrib' to IVI drivers
-    section
-  * edit python-ivi/setup.py and verify 'contrib' in IVI drivers section
-  * 'python setup.py install' to build and (re)install python-ivi
+  * cp hp5334-ivi.git/contrib/agilent*.py to python-ivi/ivi/contrib folder
+  * edit `python-ivi/ivi/contrib/__init__.py` file to add each of the 5334 drivers 
+  * edit `python-ivi/ivi/__init__.py` and add 'contrib' to IVI drivers section
+  * edit `python-ivi/setup.py` and verify 'contrib' in IVI drivers section
+  * `python setup.py install` to (re)build and (re)install python-ivi
   * explore the example folder in hp5334-ivi.git
 
 ### Notes

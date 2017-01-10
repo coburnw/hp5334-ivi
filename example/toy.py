@@ -2,20 +2,23 @@ import sys
 import time
 
 import ivi
+
+#
+# hit your instrument directly, bypassing IVI and the IVI driver
+#
 #import vxi11
-
 #instr = vxi11.Instrument("192.168.2.9", "gpib0,3")
-instr = ivi.contrib.agilent5334A("TCPIP0::192.168.2.9::gpib0,3::INSTR")
+#instr.term_char = '\n'
+#print instr.ask("ID")
+#quit()
 
+#
+# use IVI and the 5334 driver to interact with a vxi-11 connected instrument.
+#
+instr = ivi.contrib.agilent5334B("TCPIP0::192.168.2.9::gpib0,3::INSTR")
 instr.term_char = '\n'
 
-#print instr.ask("FN1")
 #instr.help()
-
-#print instr.utility.error_query()
-#print instr.utility.self_test()
-#print instr.utility.reset()
-#quit()
 
 print instr.identity.instrument_manufacturer
 print instr.identity.instrument_model

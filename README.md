@@ -15,7 +15,7 @@ A functional but very rough first draft
   
 #### I know what I'm doing
   * Copy the new driver files into the Python-IVI tree
-  * Adjust '__init__.py' files accordingly
+  * Adjust `__init__.py` files accordingly
   * rebuild and reinstall python-ivi
   * make the digits roll
   
@@ -48,12 +48,12 @@ A functional but very rough first draft
   * explore the example folder in hp5334-ivi.git
 
 ### Notes
-  * developed with an HP5334B and an E2050A
+  * developed for an HP5334B and an E2050A
   * if any of the agilent5334 driver files are modified, python-ivi will
     need to be rebuilt and reinstalled
-  * None of the memory, math, or voltmeter functionality has been implemented
+  * none of the memory, math, or voltmeter functionality has been implemented
   * frequency, time_interval, period, and ratio seems to work
-  * With my setup, i had to define instr.term_char = '\n'.  In my case,
+  * with my setup, i had to define instr.term_char = '\n'.  I found,
     this caused a conversion error during pack_int() of the python-vxi11
     library.  If you have the same problem, notes on how i worked around it
     are [here] (https://github.com/python-ivi/python-vxi11/commit/3b9a0e9ea7788c24c61727854a0e997b46fbd3f9)

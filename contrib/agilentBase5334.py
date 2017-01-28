@@ -116,8 +116,9 @@ class agilentBase5334(ivi.Driver, counter.Base):
         self._identity_specification_minor_version = 0
         self._identity_supported_instrument_models = ['HP5334A','HP5334B']
         
+        self._init_defaults()
         self._init_channels()
-    
+
     def _initialize(self, resource = None, id_query = False, reset = False, **keywargs):
         "Opens an I/O session to the instrument."
         
@@ -142,8 +143,7 @@ class agilentBase5334(ivi.Driver, counter.Base):
         # reset
         if reset:
             self.utility_reset()
-        
-    
+
     def _load_id_string(self):
         self._set_cache_valid(False, 'identity_instrument_manufacturer')
         self._set_cache_valid(False, 'identity_instrument_model')
@@ -227,14 +227,24 @@ class agilentBase5334(ivi.Driver, counter.Base):
         #if not self._driver_operation_simulate:
         self._write("IN")
         self._clear()
+
         self.driver_operation.invalidate_all_attributes()
-    
+        self._init_defaults()
+
     def _utility_reset_with_defaults(self):
         self._utility_reset()
     
     def _utility_self_test(self):
         raise ivi.OperationNotSupportedException()
     
+    def _init_defaults(self):
+        self._measurement_function = 'frequency'
+        self.driver_operation.invalidate_all_attributes()
+
+        self._frequency_aperture = 0.3
+        self._period_aperture = 0.3
+        self._time_interval_resolution == 1e-9
+
     def _init_channels(self):
         try:
             super(agilentBase5334, self)._init_channels()
@@ -386,7 +396,7 @@ class agilentBase5334(ivi.Driver, counter.Base):
             self._write("FI0") # filter off.
 
         self._channel_filter_enabled[index] = value
-    
+
 #    def _get_measurement_measurement_state(self):
 #        return self._measurement_measurement_state
     
@@ -412,12 +422,21 @@ class agilentBase5334(ivi.Driver, counter.Base):
         return f
 
     def _measurement_initiate(self):
-        if self._measurement_function == 'frequency' : 
-            cmd = MeasurementFunctionMap[self._measurement_function] + `self._frequency_channel + 1` 
+        if self._measurement_function == 'frequency' :
+            func  = MeasurementFunctionMap[self._measurement_function] + `self._frequency_channel + 1`
+            gate = 'GA' + str(self._frequency_aperture_time)
+            cmd = func + gate
         elif self._measurement_function == 'period' :
-            cmd = MeasurementFunctionMap[self._measurement_function]
+            func = MeasurementFunctionMap[self._measurement_function]
+            gate = 'GA' + str(self._period_aperture_time)
+            cmd = func + gate
         elif self._measurement_function == 'time_interval' :
-            cmd = MeasurementFunctionMap[self._measurement_function]
+            func = MeasurementFunctionMap[self._measurement_function]
+            if self._time_interval_resolution == 1e-10:
+                gate = 'GV1'
+            else:
+                gate = 'GV0'
+            cmd = func + gate
         elif self._measurement_function == 'frequency_ratio' :
             cmd = MeasurementFunctionMap[self._measurement_function]
         elif self._measurement_function == 'totalize_continuous' :
@@ -430,4 +449,4 @@ class agilentBase5334(ivi.Driver, counter.Base):
     def _measurement_read(self, maximum_time):
         self._measurement_initiate()
         return self._measurement_fetch()
-    
+

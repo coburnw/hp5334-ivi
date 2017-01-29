@@ -397,10 +397,26 @@ class agilentBase5334(ivi.Driver, counter.Base):
 
         self._channel_filter_enabled[index] = value
 
-#    def _get_measurement_measurement_state(self):
-#        return self._measurement_measurement_state
-    
-    def _set_measurement_function(self, value):  #override to limit functionality
+    # totalize 
+    def _totalize_continuous_configure(self, channel):
+        if channel <> 0:
+            raise ivi.SelectorNameException()
+        else:
+            self._totalize_continuous.channel = channel
+
+    def _totalize_continuous_fetch_count(self):
+        return self._measurement_fetch()
+
+    def _totalize_continuous_start(self):
+        cmd = 'RE FN9'
+        self._write(cmd)
+
+    def _totalize_continuous_stop(self):
+        cmd = 'FN8'
+        self._write(cmd)
+
+    # measurement
+    def _set_measurement_function(self, value):     # override to limit functionality
         if value not in MeasurementFunction:
             raise ivi.ValueNotSupportedException()
         self._measurement_function = value
@@ -439,8 +455,6 @@ class agilentBase5334(ivi.Driver, counter.Base):
             cmd = func + gate
         elif self._measurement_function == 'frequency_ratio' :
             cmd = MeasurementFunctionMap[self._measurement_function]
-        elif self._measurement_function == 'totalize_continuous' :
-            cmd = MeasurementFunctionMap['total_start']
         elif self._measurement_function == 'invalid' :
             cmd = MeasurementFunctionMap['invalid']
 

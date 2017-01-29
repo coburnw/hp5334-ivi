@@ -123,13 +123,16 @@ except ivi.vxi11.vxi11.Vxi11Exception as e:
     print instr.utility.error_query()
     instr.measurement.abort()
 
-instr.measurement_function = 'totalize_continuous'
-print instr.measurement_function , instr.channels[instr.totalize_continuous.channel].name + ' = ',
+instr.totalize_continuous.channel = 0
+instr.totalize_continuous.start()
+print 'continuous totalize ' , instr.channels[instr.totalize_continuous.channel].name + ' = ',
 try:
-    print instr.measurement.read(1000)
+    print instr.totalize_continuous.fetch_count()
     
 except ivi.vxi11.vxi11.Vxi11Exception as e:
     print "Vxi11Exception: " + e.msg
     print instr.utility.error_query()
     instr.measurement.abort()
+
+instr.totalize_continuous.stop()
 

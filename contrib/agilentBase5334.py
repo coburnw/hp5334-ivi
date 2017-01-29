@@ -425,8 +425,8 @@ class agilentBase5334(ivi.Driver, counter.Base):
         return True
     
     def _measurement_abort(self):
-        self._clear()
-        pass
+        self._write("RE")
+        #self._clear()
     
     def _measurement_fetch(self):
         val = self._read()

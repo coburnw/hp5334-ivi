@@ -154,7 +154,7 @@ class agilentBase5334(ivi.Driver, counter.Base):
             idstr = self._ask("ID")
 
         if idstr.find('HP') == 0:
-            self._identity_instrument_manufacturer = 'HP'
+            self._identity_instrument_manufacturer = 'Agilent'
             self._set_cache_valid(True, 'identity_instrument_manufacturer')
 
             self._identity_instrument_model = idstr
@@ -342,9 +342,23 @@ class agilentBase5334(ivi.Driver, counter.Base):
         if index > 1:
             raise ivi.SelectorNameException()
         index = ivi.get_index(self._channel_name, index)
-        
+
         value = float(value)
-        self._write(ChanNameMap[index] + "T" + value) # trigger level voltage
+        max_atten = 10
+        
+        if value > 4.999 * max_atten:
+            # set instrument to manual trigger (front panel knobs)
+            self._write('AU0')
+        elif value < -4.999 * max_atten:
+            # set instrument to automatic trigger
+            self._write('AU1')
+        elif self._get_identity_instrument_model() == 'HP5334A':
+            # set A instrument trigger dac values 
+            self._write(ChanNameMap[index] + "T" + value)
+        else:
+            # B instrument has no dac. ignore for now.
+            pass
+
         self._channel_level[index] = value
     
     def _get_channel_hysteresis(self, index):

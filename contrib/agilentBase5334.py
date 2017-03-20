@@ -2,11 +2,11 @@
 
 Python Interchangeable Virtual Instrument Driver
 
+
+Copyright (c) 2017 Coburn Wightman
+
+derived from agilent436a.py driver by:
 Copyright (c) 2012-2014 Alex Forencich
-
-Modified by Coburn Wightman 2017
-
-derived from agilent436a.py driver
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

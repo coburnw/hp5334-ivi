@@ -265,8 +265,8 @@ class agilentBase5334(ivi.Driver, counter.Base):
             self._channel_name.append(ChanNameMap[i])
             self._channel_impedance.append(1e6)
             self._channel_coupling.append('dc')
-            self._channel_attenuation.append(0)
-            self._channel_level.append(0)
+            self._channel_attenuation.append(1)
+            self._channel_level.append(-50)
             self._channel_hysteresis.append(0)
             self._channel_slope.append('positive')
             self._channel_filter_enabled.append(False)
@@ -326,10 +326,13 @@ class agilentBase5334(ivi.Driver, counter.Base):
         index = ivi.get_index(self._channel_name, index)
         
         value = float(value)
-        if value == "1":
+        
+        if value == 1:
             self._write(ChanNameMap[index] + "X0") # x1
-        else: 
+        elif value == 10: 
             self._write(ChanNameMap[index] + "X1") # x10
+        else:
+            raise ivi.ValueNotSupportedException("attenuation must be '1' or '10'")
 
         self._channel_attenuation[index] = value
     

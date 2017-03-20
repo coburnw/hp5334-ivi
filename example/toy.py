@@ -23,12 +23,18 @@ print instr.identity.instrument_manufacturer,
 print instr.identity.instrument_model
 print
 
-instr.channels[0].coupling = 'ac'
+instr.frequency.channel = 0
+
+instr.channels[0].coupling = 'dc'
 instr.channels[0].slope = 'positive'
 instr.channels[0].impedance = 1e6
+
+# set channel level to -50 for auto trigger levels, +50 for front panel trigger levels 
+instr.channels[0].level = 50
+instr.channels[0].attenuation = 1
 instr.channels[0].filter_enabled = False
 
-instr.channels[1].coupling = 'ac'
+instr.channels[1].coupling = 'dc'
 instr.channels[1].slope = 'positive'
 instr.channels[1].impedance = 1e6
 #instr.channels[1].filter_enabled = False

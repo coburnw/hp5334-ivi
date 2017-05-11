@@ -1,6 +1,6 @@
 ## HP5334A/B Universal Counter driver for Python-IVI
 
-A functional but very rough first draft
+A rough but functional driver for the HP5334B Universal Counter
 
 ### Requirements
   * developed using Python 2.7.9
@@ -19,7 +19,7 @@ A functional but very rough first draft
   * rebuild and reinstall python-ivi
   * make the digits roll
   
-#### Overview
+#### I like to know what I'm doing
   Inside the python-ivi source tree I made a contrib folder to store
   additional drivers. This was to minimize the amount of tromping around i would
   have to do in someone else's tree.  The `__init__.py` files need to be adjusted up
@@ -36,7 +36,7 @@ A functional but very rough first draft
   If you develop your application outside of the python-ivi tree, then a
   rebuild should hopefully be a rare occasion.
 
-#### Steps (in my case, and as best as i recall)
+#### Just spell it out for me (in my case, and as best as i recall)
   * git clone https://github.com/coburnw/hp5334-ivi.git to a devel directory
     of your choice.  For me it was the parent folder containing the python-ivi clone.
   * if it doesnt already exist, mkdir python-ivi/ivi/contrib

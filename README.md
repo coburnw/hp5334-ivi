@@ -1,6 +1,6 @@
 ## HP5334A/B Universal Counter driver for Python-IVI
 
-A rough but functional driver for the HP 5334B Universal Counter
+A simple but functional driver for interacting with the HP 5334A and 5334B Universal Counters
 
 ### Requirements
   * tested with Python2.7.9 and Python3.6.3 
@@ -31,7 +31,7 @@ If you prefer to keep them more separate, this method works well:
   * with my older instruments, i had to define instr.term_char = '\n'.  I found
     this caused a conversion error during pack_int() of the python-vxi11
     library.  If you have the same problem, notes on how i worked around it
-    are [here] (https://github.com/python-ivi/python-vxi11/commit/3b9a0e9ea7788c24c61727854a0e997b46fbd3f9)
+    are [here](https://github.com/python-ivi/python-vxi11/pull/26/commits/d6205bf8dd298a5b629304e5853595510519432c)
 
 This has been a fun trip and I appreciate the work the Python-IVI
 developers have invested.

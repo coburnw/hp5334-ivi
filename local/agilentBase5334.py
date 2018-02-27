@@ -397,13 +397,13 @@ class agilentBase5334(ivi.Driver, counter.Base):
     def _get_channel_filter_enabled(self, index):
         index = ivi.get_index(self._channel_name, index)
         
-        if index <> 0:
+        if index != 0:
             raise ivi.ValueNotSupportedException()
 
         return self._channel_filter_enabled[index]
     
     def _set_channel_filter_enabled(self, index, value):
-        if index <> 0:
+        if index != 0:
             raise ivi.SelectorNameException()
         index = ivi.get_index(self._channel_name, index)
         
@@ -416,7 +416,7 @@ class agilentBase5334(ivi.Driver, counter.Base):
 
     # totalize 
     def _totalize_continuous_configure(self, channel):
-        if channel <> 0:
+        if channel != 0:
             raise ivi.SelectorNameException()
         else:
             self._totalize_continuous.channel = channel
@@ -456,7 +456,7 @@ class agilentBase5334(ivi.Driver, counter.Base):
 
     def _measurement_initiate(self):
         if self._measurement_function == 'frequency' :
-            func  = MeasurementFunctionMap[self._measurement_function] + `self._frequency_channel + 1`
+            func  = MeasurementFunctionMap[self._measurement_function] + repr(self._frequency_channel + 1)
             gate = 'GA' + str(self._frequency_aperture_time)
             cmd = func + gate
         elif self._measurement_function == 'period' :

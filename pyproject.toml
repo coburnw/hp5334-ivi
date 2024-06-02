@@ -1,0 +1,17 @@
+[project]
+name = "HP5334_IVI"
+version = "0.0.1"
+authors = [
+  { name="Coburn Wightman", email="author@example.com" },
+]
+description = "Python-IVI driver for the HP 5334A Counter"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/coburnw/hp5334-ivi"

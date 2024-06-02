@@ -14,8 +14,9 @@ import time
 # use IVI and the 5334 driver to interact with a vxi-11 connected instrument.
 #
 import ivi
+from hp5334_ivi import agilent5334B
 
-instr = ivi.local.agilent5334B("TCPIP0::192.168.2.9::gpib0,3::INSTR")
+instr = agilent5334B("TCPIP0::192.168.2.9::gpib0,3::INSTR")
 
 #instr.help()
 
@@ -23,22 +24,24 @@ print(instr.identity.instrument_manufacturer),
 print(instr.identity.instrument_model)
 print
 
-instr.frequency.channel = 0
+# common parameters
+# set channel level to -50 for auto trigger levels, +50 for front panel trigger levels 
+instr.channels[0].level = 50
+instr.channels[0].filter_enabled = False
 
+# setup A channel
 instr.channels[0].coupling = 'dc'
 instr.channels[0].slope = 'positive'
 instr.channels[0].impedance = 1e6
+instr.channels[0].attenuation = 1   # attenuation is 1 or 10
 
-# set channel level to -50 for auto trigger levels, +50 for front panel trigger levels 
-instr.channels[0].level = 50
-instr.channels[0].attenuation = 1
-instr.channels[0].filter_enabled = False
-
+# setup B channel
 instr.channels[1].coupling = 'dc'
 instr.channels[1].slope = 'positive'
 instr.channels[1].impedance = 1e6
-#instr.channels[1].filter_enabled = False
+instr.channels[1].attenuation = 1
 
+# setup C channel
 #instr.channels[2].coupling = 'ac'
 #instr.channels[2].slope = 'positive'
 #instr.channels[2].impedance = 50
@@ -63,10 +66,10 @@ instr.measurement_function = 'frequency'
 instr.frequency.aperture_time = 1
 
 instr.frequency.channel = 0
-print('{} {} = '.format(instr.measurement_function, instr.channels[instr.frequency.channel].name)),
+print('{} {} = '.format(instr.measurement_function, instr.channels[instr.frequency.channel].name))
 
 try:
-    print(instr.measurement.read(1000))
+    print(' {}'.format(instr.measurement.read(1000)))
     
 except ivi.vxi11.vxi11.Vxi11Exception as e:
     print("Vxi11Exception: " + e.msg)
@@ -74,9 +77,9 @@ except ivi.vxi11.vxi11.Vxi11Exception as e:
     instr.measurement.abort()
 
 instr.frequency.channel = 1
-print('{} {} = '.format(instr.measurement_function, instr.channels[instr.frequency.channel].name)),
+print('{} {} = '.format(instr.measurement_function, instr.channels[instr.frequency.channel].name))
 try:
-    print(instr.measurement.read(1000))
+    print(' {}'.format(instr.measurement.read(1000)))
     
 except ivi.vxi11.vxi11.Vxi11Exception as e:
     print("Vxi11Exception: " + e.msg)
@@ -84,9 +87,9 @@ except ivi.vxi11.vxi11.Vxi11Exception as e:
     instr.measurement.abort()
 
 instr.frequency.channel = 2
-print('{} {} = '.format(instr.measurement_function, instr.channels[instr.frequency.channel].name )),
+print('{} {} = '.format(instr.measurement_function, instr.channels[instr.frequency.channel].name))
 try:
-    print(instr.measurement.read(1000))
+    print(' {}'.format(instr.measurement.read(1000)))
     
 except ivi.vxi11.vxi11.Vxi11Exception as e:
     print("Vxi11Exception: " + e.msg)
@@ -95,10 +98,10 @@ except ivi.vxi11.vxi11.Vxi11Exception as e:
 
 instr.measurement_function = 'period'
 instr.period.aperture_time = 1
-print('{} {} = '.format(instr.measurement_function, instr.channels[instr.period.channel].name)),
+print('{} {} = '.format(instr.measurement_function, instr.channels[instr.period.channel].name))
 
 try:
-    print(instr.measurement.read(1000))
+    print(' {}'.format(instr.measurement.read(1000)))
     
 except ivi.vxi11.vxi11.Vxi11Exception as e:
     print("Vxi11Exception: " + e.msg)
@@ -108,9 +111,9 @@ except ivi.vxi11.vxi11.Vxi11Exception as e:
 # measures interval from a to b.  Will timeout if b channel is inactive
 instr.measurement_function = 'time_interval'
 instr.time_interval.resolution = 1e-9
-print(instr.measurement_function + ' = '),
+print(instr.measurement_function + ' = ')
 try:
-    print(instr.measurement.read(1000))
+    print(' {}'.format(instr.measurement.read(1000)))
     
 except ivi.vxi11.vxi11.Vxi11Exception as e:
     print("Vxi11Exception: " + e.msg)
@@ -120,9 +123,9 @@ except ivi.vxi11.vxi11.Vxi11Exception as e:
 # measures interval from a to b with 100-gate average
 instr.measurement_function = 'time_interval'
 instr.time_interval.resolution = 1e-10
-print(instr.measurement_function + ' = '),
+print(instr.measurement_function + ' = ')
 try:
-    print(instr.measurement.read(1000))
+    print(' {}'.format(instr.measurement.read(1000)))
     
 except ivi.vxi11.vxi11.Vxi11Exception as e:
     print("Vxi11Exception: " + e.msg)
@@ -131,9 +134,9 @@ except ivi.vxi11.vxi11.Vxi11Exception as e:
 
 instr.totalize_continuous.channel = 0
 instr.totalize_continuous.start()
-print('continuous totalize {} = '.format(instr.channels[instr.totalize_continuous.channel].name)),
+print('continuous totalize {} = '.format(instr.channels[instr.totalize_continuous.channel].name))
 try:
-    print(instr.totalize_continuous.fetch_count())
+    print(' {}'.format(instr.totalize_continuous.fetch_count()))
     
 except ivi.vxi11.vxi11.Vxi11Exception as e:
     print("Vxi11Exception: " + e.msg)

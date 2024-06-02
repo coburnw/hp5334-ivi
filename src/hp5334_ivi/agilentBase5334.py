@@ -28,9 +28,9 @@ THE SOFTWARE.
 
 """
 
-from .. import ivi
-from .. import counter
-from .. import vxi11
+import ivi
+from ivi import counter
+from ivi import vxi11
 
 #import time
 
